@@ -1,0 +1,26 @@
+services:
+  sql-sender:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql-sender
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "YourStrong!Passw0rd"
+    ports:
+      - "1435:1433"
+    networks:
+      - sbnet
+
+  sql-receiver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql-receiver
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "YourStrong!Passw0rd"
+    ports:
+      - "1436:1433"
+    networks:
+      - sbnet
+
+networks:
+  sbnet:
+    name: sbnet
