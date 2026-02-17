@@ -1,31 +1,29 @@
 -- =============================================
 -- Message Type and Contract
--- Shared between SenderDb and ReceiverDb
 -- =============================================
 
--- Use the database you are deploying to before running this script
--- Example:
--- USE SenderDb;
--- GO
-
--- Create Message Type (JSON payload)
+-- Create Message Type
 IF NOT EXISTS (
-    SELECT 1 
+    SELECT * 
     FROM sys.service_message_types 
-    WHERE name = 'OrderCreatedMessage'
+    WHERE name = N'OrderCreatedMessage'
 )
 BEGIN
     CREATE MESSAGE TYPE [OrderCreatedMessage]
-    VALIDATION = NONE; -- JSON validation handled in app layer
+    VALIDATION = NONE;
 END
 GO
 
 -- Create Contract
 IF NOT EXISTS (
-    SELECT 1 
+    SELECT * 
     FROM sys.service_contracts 
-    WHERE name = 'OrderContract'
+    WHERE name = N'OrderContract'
 )
 BEGIN
     CREATE CONTRACT [OrderContract]
     (
+        [OrderCreatedMessage] SENT BY INITIATOR
+    );
+END
+GO
